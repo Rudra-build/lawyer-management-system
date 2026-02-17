@@ -3,7 +3,7 @@ from client.models import Client
 from case.models import Case
 from timeslot.models import TimeSlot
 
-# Create your models here.
+
 class Appointment(models.Model):
     client = models.ForeignKey(Client, on_delete=models.PROTECT)
     case = models.ForeignKey(Case, on_delete=models.PROTECT)
