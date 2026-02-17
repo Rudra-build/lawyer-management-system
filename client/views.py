@@ -14,7 +14,7 @@ def client_appointments(request):
     return render(request, 'client/appointments.html', {'appointments': appointments})
 
 
-# i am storing the values of the selected choices for lawyer and case here. i will explain it better in class. this is confusing so i have to use chat gpt to remember context. cause upon refreshing my page would reset to default values
+# i am storing the values of the selected choices for lawyer and case here.cause upon refreshing my page would reset to default values
 @login_required
 def book_appointment(request):
     client = Client.objects.get(user=request.user)
