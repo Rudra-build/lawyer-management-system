@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Cases</title>
+</head>
+<body>
+    
+    <h1> My Cases</h1>
+
+    {% if cases %}
+        <table border="1">
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Speciality</th>
+                <th>Created Date</th>
+            </tr>
+            {% for c in cases %}
+            <tr>
+                <td> {{ c.id }}</td>
+                <td> {{ c.title }}</td>
+                <td> {{ c.speciality.name }}</td>
+                <td> {{ c.created_at }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+    {% else %}
+        <p> you have made no cases yet</p>
+    {% endif %}
+
+    <h2> Create new case</h2>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <p>
+            <label for = 'title'> Case title</label>
+            <input type="text" name="title" id="title" required>
+        </p>
+
+        <p>
+            <label for="speciality_id"> Speciality: </label>
+            <select name="speciality_id" id="speciality_id" required>
+                <option value="">Select speciality</option>
+                {% for s in specialities %}
+                    <option value="{{ s.id }}">{{ s.name }}</option>
+                {% endfor %}
+                <!--drop down of specialities-->
+            </select>
+        </p>
+
+        <button type="submit">Create Case</button>
+    </form>
+
+    <p>
+        <a href="{% url 'dashboard_home' %}">Back to home</a>
+    </p>
+</body>
+</html>

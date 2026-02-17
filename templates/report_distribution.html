@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointment Distribution Report</title>
+</head>
+<body>
+    <h1>Appointment Distribution by Speciality and Lawyer</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        <p>
+            Start date: <input type="date" name="start_date" required>
+        </p>
+        <p>
+            End date: <input type="date" name="end_date" required>
+        </p>
+        <button type="submit">Show report</button>
+    </form>
+
+    {% if results %}
+        <h2>Result</h2>
+        <table border="1">
+            <tr>
+                <th>Speciality</th>
+                <th>Lawyer</th>
+                <th>Number of Appointments</th>
+            </tr>
+            {% for row in results %}
+            <tr>
+                <td>{{ row.speciality.name }}</td>
+                <td>{{ row.lawyer.user.username }}</td>
+                <td>{{ row.count }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% elif start_date and end_date %}
+        <p>No appointments in this period.</p>
+    {% endif %}
+
+    {% if results %}
+        <h2>Summary</h2>
+
+        <h3>By legal category (speciality)</h3>
+        {% regroup results by speciality as speciality_list %}
+        <ul>
+            {% for group in speciality_list %}
+                <li>
+                    {{ group.grouper.name }}:
+                    {% for row in group.list %}
+                        {{ row.count }} appointment with lawyer {{ row.lawyer.user.username }}{% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </li>
+            {% endfor %}
+        </ul>
+
+        <h3>By lawyer</h3>
+        {% regroup results by lawyer as lawyer_list %}
+        <ul>
+            {% for group in lawyer_list %}
+                <li>
+                    {{ group.grouper.user.username }} –
+                    {% for row in group.list %}
+                        {{ row.speciality.name }} ({{ row.count }}){% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <p>
+        <a href="{% url 'dashboard_home' %}">Back to home</a>
+    </p>
+    
+</body>
+</html>

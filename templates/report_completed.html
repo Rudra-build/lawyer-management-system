@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Completed Consultations report</title>
+</head>
+<body>
+    <h1>Completed Consultations</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        <p>
+            Start date: <input type="date" name="start_date" required>
+        </p>
+        <p>
+            End date: <input type="date" name="end_date" required>
+        </p>
+        <button type="submit">Show report</button>
+    </form>
+
+    {% if appointments is not None %}
+        <h2>Result</h2>
+        <p>Total completed consultations: {{ count }}</p>
+
+        {% if appointments %}
+            <table border="1">
+                <tr>
+                    <th>ID</th>
+                    <th>Client</th>
+                    <th>Case</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                </tr>
+                {% for appt in appointments %}
+                <tr>
+                    <td>{{ appt.id }}</td>
+                    <td>{{ appt.client.user.username }}</td>
+                    <td>{{ appt.case.title }}</td>
+                    <td>{{ appt.timeslot.date }}</td>
+                    <td>{{ appt.timeslot.start_time }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <p>No completed consultations in this period.</p>
+        {% endif %}
+    {% endif %}
+
+    <p>
+        <a href="{% url 'dashboard_home' %}">Back to home</a>
+    </p>
+
+</body>
+</html>

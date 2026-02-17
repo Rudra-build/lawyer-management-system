@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Appointment </title>
+</head>
+<body>
+    <h1> My Appointments</h1>
+
+    {% if appointments %}
+        <table border = '1'>
+            <tr>
+                <th>ID</th>
+                <th>Case</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Status</th>
+            </tr>
+
+            {% for appt in appointments %}
+            <tr>
+                <td>{{ appt.id }}</td>
+                <td>{{ appt.case.title }}</td>
+                <td>{{ appt.timeslot.date }}</td>
+                <td>{{ appt.timeslot.start_time }}</td>
+                <td>{{ appt.status }}</td>
+            </tr>
+
+            {% endfor %}
+        </table>
+    
+        {% else %}
+            <P> You have no appointments yet</P>
+        {% endif %}
+
+        <p>
+            <a href="{% url 'dashboard_home' %}">Back to home</a>
+        </p>
+
+</body>
+</html>

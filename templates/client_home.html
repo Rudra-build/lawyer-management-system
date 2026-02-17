@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Home</title>
+</head>
+<body>
+    
+    <h1> Client Home</h1>
+
+    <p> Welcome, {{ request.user.username }}</p>
+    <p>
+        <a href = "{% url 'logout_user' %}"> Logout</a>
+    </p>
+
+    <p>
+        <a href="{% url 'client_appointments' %}"> My Appointments</a>
+    </p>
+
+    <p>
+        <a href="{% url 'book_appointment' %}"> Book a new appointment</a>
+    </p>
+
+    <p>
+        <a href="{% url 'client_cases' %}"> My Cases</a>
+    </p>
+    
+</body>
+</html>

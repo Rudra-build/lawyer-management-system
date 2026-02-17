@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointment Detail </title>
+</head>
+<body>
+    <h1>Appointment {{ appointment.id }}</h1>
+
+    <p><strong>Client:</strong> {{ appointment.client.user.username }}</p>
+    <p><strong>Case:</strong> {{ appointment.case.title }}</p>
+    <p><strong>Date:</strong> {{ appointment.timeslot.date }}</p>
+    <p><strong>Time:</strong> {{ appointment.timeslot.start_time }}</p>
+
+    <h2>Update Status and Notes</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        <p>
+            <label for="status">Status:</label>
+            <select name="status" id="status">
+              a  <option value="Scheduled" {% if appointment.status == "Scheduled" %}selected{% endif %}>Scheduled</option>
+                <option value="Completed" {% if appointment.status == "Completed" %}selected{% endif %}>Completed</option>
+                <option value="Cancelled" {% if appointment.status == "Cancelled" %}selected{% endif %}>Cancelled</option>
+                <option value="No-Show" {% if appointment.status == "No-Show" %}selected{% endif %}>No-Show</option>
+            </select>
+        </p>
+
+        <p>
+            <label for="notes">Notes:</label><br>
+            <textarea name="notes" id="notes" rows="5" cols="40">{{ appointment.notes }}</textarea>
+        </p>
+
+        <button type="submit">Save Changes</button>
+    </form>
+
+    <p>
+        <a href="{% url 'lawyer_appointments' %}">Back to appointments</a>
+    </p>
+
+</body>
+</html>

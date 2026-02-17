@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lawyer Home</title>
+</head>
+<body>
+    <h1> Lawyer Home</h1>
+
+    <p> welcome, {{ request.user.username }}</p>
+
+    <p>
+        <a href="{% url 'logout_user' %}"> Logout</a>
+    </p>
+
+    <p>
+        <a href="{% url 'lawyer_appointments' %}">My Appointments</a>
+    </p>
+
+    <p>
+        <a href="{% url 'report_completed_appointments' %}">Report: Completed consultations</a>
+    </p>
+
+    <p>
+        <a href="{% url 'report_lawyer_revenue' %}">Report: Revenue per lawyer</a>
+    </p>
+
+    <p>
+        <a href="{% url 'report_appointment_distribution' %}">Report: Appointment distribution</a>
+    </p>
+
+    <p>
+        <a href="{% url 'lawyer_cases' %}">My Cases</a>
+    </p>
+</body>
+</html>

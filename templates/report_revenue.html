@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Revenue report</title>
+</head>
+<body>
+    <h1>Lawyer Revenue / Hours</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        <p>
+            Start date: <input type="date" name="start_date" required>
+        </p>
+        <p>
+            End date: <input type="date" name="end_date" required>
+        </p>
+        <button type="submit">Show report</button>
+    </form>
+
+    {% if results %}
+        <h2>Result</h2>
+        <table border="1">
+            <tr>
+                <th>Lawyer</th>
+                <th>Completed Appointments</th>
+                <th>Total Hours</th>
+                <th>Total Revenue</th>
+            </tr>
+            {% for row in results %}
+            <tr>
+                <td>{{ row.lawyer.user.username }}</td>
+                <td>{{ row.count }}</td>
+                <td>{{ row.hours }}</td>
+                <td>{{ row.revenue }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% elif start_date and end_date %}
+        <p>No completed appointments in this period.</p>
+    {% endif %}
+
+    <p>
+        <a href="{% url 'dashboard_home' %}">Back to home</a>
+    </p>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Book Appointment</title>
+</head>
+<body>
+
+    <h1>Book a New Appointment</h1>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <p>
+            <label for="speciality_id">Speciality:</label>
+            <select name="speciality_id" id="speciality_id" required
+                    onchange="if (this.value) { window.location='?speciality_id=' + this.value; }">
+                    <!--i have made it so it reloads the page and feeds the choice selected-->
+
+                <option value="">Select speciality</option>
+                {% for s in specialities %}
+                    <option value="{{ s.id }}"
+                        {% if selected_speciality_id == s.id %}selected{% endif %}>
+                        <!--this line will help me keep the chosen function selected-->
+                        {{ s.name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </p>
+
+        <p>
+            <label for="case_id">Case:</label>
+            <select name="case_id" id="case_id" required>
+                <option value="">Select case</option>
+                {% for c in cases %}
+                    <option value="{{ c.id }}"
+                        {% if selected_case_id == c.id %}selected{% endif %}>
+                        {{ c.title }}
+                    </option>
+                {% endfor %}
+            </select>
+        </p>
+
+        <p>
+            <label for="lawyer_id">Lawyer:</label>
+            <select name="lawyer_id" id="lawyer_id" required>
+                <option value="">Select lawyer</option>
+                {% for l in lawyers %}
+                    <option value="{{ l.id }}"
+                        {% if selected_lawyer_id == l.id %}selected{% endif %}>
+                        <!-- keeps what i chose for lawyer selected-->
+                        {{ l.user.username }} ({{ l.speciality.name }})
+                    </option>
+                {% endfor %}
+            </select>
+        </p>
+
+        <h2>Lawyers and Fees</h2>
+        {% if lawyers %}
+            <table border="1">
+                <tr>
+                    <th>Lawyer</th>
+                    <th>Speciality</th>
+                    <th>Hourly rate</th>
+                </tr>
+                {% for l in lawyers %}
+                <tr>
+                    <td>{{ l.user.username }}</td>
+                    <td>{{ l.speciality.name }}</td>
+                    <td>{{ l.hourly_rate }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <p>No lawyers for this speciality.</p>
+        {% endif %}
+
+        {% if timeslots %}
+            <p>
+                <label for="timeslot_id">Time Slot:</label>
+                <select name="timeslot_id" id="timeslot_id" required>
+                    <option value="">Select time slot</option>
+                    {% for t in timeslots %}
+                        <option value="{{ t.id }}">
+                            {{ t.date }} {{ t.start_time }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </p>
+        {% else %}
+            <p>No time slots loaded yet. Choose a lawyer and click "Show available time slots".</p>
+        {% endif %}
+
+        <p>
+            <button type="submit" name="action" value="filter">
+                Show available time slots
+            </button>
+
+            {% if timeslots %}
+                <button type="submit" name="action" value="book">
+                    Confirm Booking
+                </button>
+            {% endif %}
+        </p>
+    </form>
+
+    <p>
+        <a href="{% url 'dashboard_home' %}">Back to home</a>
+    </p>
+
+</body>
+</html>

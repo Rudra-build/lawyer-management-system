@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Appointments</title>
+</head>
+<body>
+    <h1>My Appointments</h1>
+
+    {% if appointments %}
+        <table border="1">
+            <tr>
+                <th>ID</th>
+                <th>Client</th>
+                <th>Case</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Status</th>
+            </tr>
+
+            {% for appt in appointments %}
+            <tr>
+                <td>
+                    <a href="{% url 'lawyer_appointment_detail' appt.id %}">
+                        {{ appt.id }}
+                    </a>
+                </td>
+                <td>{{ appt.client.user.username }}</td>
+
+                <td>
+                    <a href="{% url 'lawyer_appointment_detail' appt.id %}">
+                        {{ appt.case.title }}
+                    </a>
+                </td>
+
+                <td>{{ appt.timeslot.date }}</td>
+                <td>{{ appt.timeslot.start_time }}</td>
+
+                <td>
+                    <a href="{% url 'lawyer_appointment_detail' appt.id %}">
+                        {{ appt.status }}
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>You have no appointments.</p>
+    {% endif %}
+
+    <p>
+        <a href="{% url 'dashboard_home' %}">Back to home</a>
+    </p>
+
+</body>
+</html>
